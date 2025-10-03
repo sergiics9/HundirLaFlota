@@ -33,14 +33,48 @@ body {
     color: #0077b6;
 }
 
-#fleet-status li {
-    margin: 5px 0;
-    list-style: square;
+/* FLEET LIST */
+#fleet-status {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
 }
 
-.stats {
-    margin-top: 15px;
+#fleet-status li {
+    background: #e0f7fa;
+    color: #023e8a;
     font-weight: bold;
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#fleet-status li:hover {
+    background: #b2ebf2;
+    transform: scale(1.02);
+}
+
+/* Número de casillas del barco */
+#fleet-status li span {
+    background: #0077b6;
+    color: #fff;
+    font-size: 0.85em;
+    font-weight: normal;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+
+.stats {
+    color: #023e8a;
+    font-weight: bold;
+    padding: 8px 12px;
+    margin: 6px 0;
 }
 
 .leaderboard {
@@ -68,19 +102,30 @@ body {
     margin-bottom: 15px;
 }
 
+/* MESSAGE AREA */
+#message-area {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #444;
+    padding-bottom: 10px;
+}
+
+
 /* GAME BOARD */
 #game-board {
     display: grid;
     justify-content: center;
     margin: 0 auto;
-    gap: 2px;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
 }
 
 .cell {
     width: 40px;
     height: 40px;
     background: #caf0f8;
-    border: 1px solid #90e0ef;
+    border: 1px solid #023e8a;
     cursor: pointer;
     transition: background 0.3s ease;
 }
@@ -98,8 +143,10 @@ body {
 }
 
 .cell.hundido {
-    background: #000;
+    background: #8b0000;
 }
+
+
 
 /* ===== Modal ===== */
 .modal-overlay {
