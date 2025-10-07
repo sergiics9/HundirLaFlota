@@ -2,38 +2,80 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Press Start 2P", system-ui;
 }
 
 body {
-    background-color: #f0f4f8;
-    color : #333;
+    background-color: #0d1b2a;
+    color: #ffffff;
 }
 
-/* MAIN LAYOUT */
+/* ===== START SCREEN ===== */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(11, 23, 35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1s ease;
+}
 
+#start-screen img {
+    max-width: 100%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+#start-screen button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 14px;
+    background: #0077b6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#start-screen button:hover {
+    background: #023e8a;
+    transform: scale(1.1);
+}
+
+#start-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ===== MAIN LAYOUT ===== */
 .main-layout {
     display: flex;
     gap: 20px;
     padding: 20px;
 }
 
-
-/* INFO PANEL */
+/* ===== INFO PANEL ===== */
 .info-panel {
     flex: 1;
-    background: #fff;
+    background: #1b263b;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.6);
+    color: #fff;
 }
 
 .info-panel h2 {
     margin-bottom: 10px;
-    color: #0077b6;
+    color: #e0e1dd;
 }
 
-/* FLEET LIST */
 #fleet-status {
     list-style: none;
     padding: 0;
@@ -41,8 +83,8 @@ body {
 }
 
 #fleet-status li {
-    background: #e0f7fa;
-    color: #023e8a;
+    background: #415a77;
+    color: #ffffff;
     font-weight: bold;
     padding: 8px 12px;
     margin: 6px 0;
@@ -50,18 +92,17 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
     transition: transform 0.2s ease, background 0.2s ease;
 }
 
 #fleet-status li:hover {
-    background: #b2ebf2;
+    background: #778da9;
     transform: scale(1.02);
 }
 
-/* Número de casillas del barco */
 #fleet-status li span {
-    background: #0077b6;
+    background: #e63946;
     color: #fff;
     font-size: 0.85em;
     font-weight: normal;
@@ -69,9 +110,8 @@ body {
     border-radius: 12px;
 }
 
-
 .stats {
-    color: #023e8a;
+    color: #adb5bd;
     font-weight: bold;
     padding: 8px 12px;
     margin: 6px 0;
@@ -85,34 +125,32 @@ body {
     padding-left: 20px;
 }
 
-
-
-/* GAME CONTAINER */
+/* ===== GAME CONTAINER ===== */
 .game-container {
     flex: 2;
-    background: #fff;
+    background: #1b263b;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.6);
     text-align: center;
+    color: #fff;
 }
 
 .game-container h1 {
-    color: #023e8a;
+    color: #e0e1dd;
     margin-bottom: 15px;
 }
 
-/* MESSAGE AREA */
+/* ===== MESSAGE AREA ===== */
 #message-area {
     margin-bottom: 15px;
     font-size: 1.1em;
     font-weight: bold;
-    color: #444;
+    color: #fff;
     padding-bottom: 10px;
 }
 
-
-/* GAME BOARD */
+/* ===== GAME BOARD ===== */
 #game-board {
     display: grid;
     justify-content: center;
@@ -124,14 +162,14 @@ body {
 .cell {
     width: 40px;
     height: 40px;
-    background: #caf0f8;
-    border: 1px solid #023e8a;
+    background: #1b263b;
+    border: 1px solid #415a77;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
 .cell:hover {
-    background: #ade8f4;
+    background: #415a77;
 }
 
 .cell.tocado {
@@ -146,32 +184,32 @@ body {
     background: #8b0000;
 }
 
-
-
-/* ===== Modal ===== */
+/* ===== MODAL ===== */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .modal-content {
-    background: #fff;
+    background: #1b263b;
     padding: 25px;
     border-radius: 10px;
     text-align: center;
     width: 300px;
+    color: #fff;
+    border: 2px solid #415a77;
 }
 
 .modal-content h2 {
     margin-bottom: 10px;
-    color: #0077b6;
+    color: #e0e1dd;
 }
 
 .modal-content p {
@@ -182,7 +220,9 @@ body {
     width: 90%;
     padding: 8px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    background: #0d1b2a;
+    color: #ffffff;
+    border: 1px solid #415a77;
     border-radius: 5px;
 }
 
@@ -199,8 +239,4 @@ body {
 
 .modal-content button:hover {
     background: #023e8a;
-}
-
-.cell.hundido {
-    background: #8b0000;
 }

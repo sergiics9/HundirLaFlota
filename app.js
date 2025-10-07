@@ -5,6 +5,19 @@
 // const gameBoard = ...;
 // const messageArea = ...;
 // etc.
+document.addEventListener("DOMContentLoaded", () => {
+    const startBtn = document.getElementById("start-btn");
+    const startScreen = document.getElementById("start-screen");
+
+    startBtn.addEventListener("click", () => {
+        startScreen.classList.add("fade-out");
+        setTimeout(() => {
+            startScreen.style.display = "none";
+        }, 1000);
+    });
+});
+
+
 
 const gameBoard = document.getElementById('game-board');
 const messageArea = document.getElementById('message-area');
