@@ -9,12 +9,12 @@ $scoresFile = 'scores.json';
 // Usa file_get_contents('php://input') para leer el cuerpo de la petición POST.
 $json = file_get_contents($scoresFile);
 // Usa json_decode(..., true) para convertir el JSON a un array asociativo de PHP.
-$data = json_decode($json, true);
+$data = json_decode(file_get_contents('php://input'), true);
 // $input = ...;
 // $`playerName = `$input['name'] ?? 'Jugador Anónimo';
 // $`playerShots = `$input['shots'] ?? 999;
 $playerName = $data['name'] ?? 'Sergi';
-$playerShots = $data['shots'] ?? 999;
+$playerShots = $data['shots'] ?? 99;
 // PASO 4: Leer las puntuaciones existentes.
 $scores = [];
 // Si el archivo $scoresFile existe, léelo y decodifícalo a PHP. 
