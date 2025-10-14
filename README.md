@@ -88,7 +88,7 @@ Para ejecutar este proyecto necesitas:
 
 ### Estructura de Archivos
 
-\`\`\`
+```
 hundir-la-flota/
 │
 ├── index.html # Página principal del juego
@@ -101,27 +101,27 @@ hundir-la-flota/
 ├── img/
 │ └── battleship-u-\_062.png # Icono del juego
 └── README.md # Documentación
-\`\`\`
+```
 
 ### Configuración del Tablero
 
 Para modificar el tamaño del tablero, edita `start_game.php`:
 
-\`\`\`php
+```php
 $boardSize = 10; // Cambia este valor (mínimo 10 recomendado)
-\`\`\`
+```
 
 ### Configuración de la Flota
 
 Para modificar los barcos disponibles, edita el array `$fleetDefinition` en `start_game.php`:
 
-\`\`\`php
+```php
 $fleetDefinition = [
 ["name" => "Portaaviones", "size" => 5],
 ["name" => "Acorazado", "size" => 4],
 // Añade o modifica barcos aquí
 ];
-\`\`\`
+```
 
 ## Uso
 
@@ -162,7 +162,8 @@ Genera una nueva partida con posiciones aleatorias de barcos.
 
 **Método**: GET  
 **Respuesta**:
-\`\`\`json
+
+```json
 {
 "boardSize": 10,
 "fleet": [
@@ -180,7 +181,7 @@ Genera una nueva partida con posiciones aleatorias de barcos.
 ...
 ]
 }
-\`\`\`
+```
 
 #### `save_score.php`
 
@@ -188,33 +189,37 @@ Guarda una nueva puntuación en el sistema.
 
 **Método**: POST  
 **Body**:
-\`\`\`json
+
+```json
 {
-"name": "Jugador",
-"shots": 42
+  "name": "Jugador",
+  "shots": 42
 }
-\`\`\`
+```
+
 **Respuesta**:
-\`\`\`json
+
+```json
 {
-"success": true,
-"message": "Puntuación guardada correctamente"
+  "success": true,
+  "message": "Puntuación guardada correctamente"
 }
-\`\`\`
+```
 
 #### `get_scores.php`
 
 Recupera el ranking de puntuaciones.
 
-**Método**: GET  
+**Método**: GET
 **Respuesta**:
-\`\`\`json
+
+```json
 [
 {"name": "Jugador1", "shots": 35},
 {"name": "Jugador2", "shots": 42},
 ...
 ]
-\`\`\`
+```
 
 ### Características Técnicas
 
