@@ -5,28 +5,28 @@
 // const gameBoard = ...;
 // const messageArea = ...;
 // etc.
-document.addEventListener("DOMContentLoaded", () => {
-  const startBtn = document.getElementById("start-btn")
-  const startScreen = document.getElementById("start-screen")
+document.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('start-btn');
+    const startScreen = document.getElementById('start-screen');
 
-  startBtn.addEventListener("click", () => {
-    startScreen.classList.add("fade-out")
-    setTimeout(() => {
-      startScreen.style.display = "none"
-    }, 1000)
-  })
-})
+    startBtn.addEventListener('click', () => {
+        startScreen.classList.add('fade-out');
+        setTimeout(() => {
+            startScreen.style.display = 'none';
+        }, 1000);
+    });
+});
 
-const gameBoard = document.getElementById("game-board")
-const messageArea = document.getElementById("message-area")
-const fleetStatusEl = document.getElementById("fleet-status")
-const shotCounterEl = document.getElementById("shot-counter")
-const scoreListEl = document.getElementById("score-list")
-const modal = document.getElementById("game-over-modal")
-const modalTitle = document.getElementById("modal-title")
-const modalText = document.getElementById("modal-text")
-const playerNameInput = document.getElementById("player-name")
-const saveScoreBtn = document.getElementById("save-score-btn")
+const gameBoard = document.getElementById('game-board');
+const messageArea = document.getElementById('message-area');
+const fleetStatusEl = document.getElementById('fleet-status');
+const shotCounterEl = document.getElementById('shot-counter');
+const scoreListEl = document.getElementById('score-list');
+const modal = document.getElementById('game-over-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalText = document.getElementById('modal-text');
+const playerNameInput = document.getElementById('player-name');
+const saveScoreBtn = document.getElementById('save-score-btn');
 // const restartBtn = document.getElementById("restart-btn") // Removed restart button
 
 // --- PASO 2: DEFINICIÓN DEL ESTADO DEL JUEGO ---
@@ -45,7 +45,7 @@ let gameState = {
     shotsFired: 0,
     shipsSunk: 0,
     isGameOver: false,
-}
+};
 
 // --- PASO 3: INICIO DEL JUEGO ---
 // Crea una función asíncrona 'startGame' que se ejecutará al cargar la página.
@@ -71,18 +71,18 @@ let gameState = {
 
 async function startGame() {
     try {
-        const response = await fetch("start_game.php")
-        const data = await response.json()
+        const response = await fetch('start_game.php');
+        const data = await response.json();
 
-        gameState.boardSize = data.boardSize || 10
-        gameState.fleet = data.fleet
+        gameState.boardSize = data.boardSize || 10;
+        gameState.fleet = data.fleet;
 
-        renderBoard()
-        renderFleetStatus()
-        messageArea.textContent = "¡Hunde la flota!"
+        renderBoard();
+        renderFleetStatus();
+        messageArea.textContent = '¡Hunde la flota!';
     } catch (error) {
-        messageArea.textContent = "Error."
-        console.error(error)
+        messageArea.textContent = 'Error.';
+        console.error(error);
     }
 }
 
@@ -117,32 +117,32 @@ async function startGame() {
 // }
 
 function renderBoard() {
-    gameBoard.innerHTML = ""
-    gameBoard.style.display = "grid"
-    gameBoard.style.gridTemplateColumns = `repeat(${gameState.boardSize}, 40px)`
+    gameBoard.innerHTML = '';
+    gameBoard.style.display = 'grid';
+    gameBoard.style.gridTemplateColumns = `repeat(${gameState.boardSize}, 40px)`;
 
     for (let row = 0; row < gameState.boardSize; row++) {
         for (let col = 0; col < gameState.boardSize; col++) {
-        const cell = document.createElement("div")
-        cell.classList.add("cell")
-        cell.dataset.row = row
-        cell.dataset.col = col
-        cell.addEventListener("click", handleCellClick)
-        gameBoard.appendChild(cell)
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+            cell.addEventListener('click', handleCellClick);
+            gameBoard.appendChild(cell);
         }
     }
 }
 
 function renderFleetStatus() {
-    fleetStatusEl.innerHTML = ""
-    if (!Array.isArray(gameState.fleet)) return
+    fleetStatusEl.innerHTML = '';
+    if (!Array.isArray(gameState.fleet)) return;
 
     gameState.fleet.forEach((ship, index) => {
-        const li = document.createElement("li")
-        li.id = `ship-${index}`
-        li.innerHTML = `${ship.name} <span>${ship.size}</span>`
-        fleetStatusEl.appendChild(li)
-    })
+        const li = document.createElement('li');
+        li.id = `ship-${index}`;
+        li.innerHTML = `${ship.name} <span>${ship.size}</span>`;
+        fleetStatusEl.appendChild(li);
+    });
 }
 
 // --- PASO 5: LÓGICA DE DISPARO ---
@@ -174,49 +174,55 @@ function renderFleetStatus() {
 // }
 
 function handleCellClick(event) {
-    if (gameState.isGameOver) return
-    const cell = event.target
+    if (gameState.isGameOver) return;
+    const cell = event.target;
 
-    if (cell.dataset.fired === "true") return
-    cell.dataset.fired = "true"
+    if (cell.dataset.fired === 'true') return;
+    cell.dataset.fired = 'true';
 
-    gameState.shotsFired++
-    shotCounterEl.textContent = gameState.shotsFired
+    gameState.shotsFired++;
+    shotCounterEl.textContent = gameState.shotsFired;
 
-    const row = Number.parseInt(cell.dataset.row)
-    const col = Number.parseInt(cell.dataset.col)
+    const row = Number.parseInt(cell.dataset.row);
+    const col = Number.parseInt(cell.dataset.col);
 
-    const hitShip = gameState.fleet.find((ship) => ship.positions.some((pos) => pos.row === row && pos.col === col))
+    const hitShip = gameState.fleet.find((ship) =>
+        ship.positions.some((pos) => pos.row === row && pos.col === col)
+    );
 
     if (hitShip) {
-        hitShip.hits++
+        hitShip.hits++;
         if (hitShip.hits < hitShip.size) {
-        cell.classList.add("tocado")
-        messageArea.textContent = "¡Tocado!"
+            cell.classList.add('tocado');
+            messageArea.textContent = '¡Tocado!';
         } else {
-        hitShip.isSunk = true
-        gameState.shipsSunk++
+            hitShip.isSunk = true;
+            gameState.shipsSunk++;
 
-        hitShip.positions.forEach((pos) => {
-            const sunkCell = document.querySelector(`.cell[data-row='${pos.row}'][data-col='${pos.col}']`)
-            if (sunkCell) {
-            sunkCell.classList.remove("tocado")
-            sunkCell.classList.add("hundido")
-            }
-        })
+            hitShip.positions.forEach((pos) => {
+                const sunkCell = document.querySelector(
+                    `.cell[data-row='${pos.row}'][data-col='${pos.col}']`
+                );
+                if (sunkCell) {
+                    sunkCell.classList.remove('tocado');
+                    sunkCell.classList.add('hundido');
+                }
+            });
 
-        const shipEl = document.getElementById(`ship-${gameState.fleet.indexOf(hitShip)}`)
-        shipEl.style.textDecoration = "line-through"
+            const shipEl = document.getElementById(
+                `ship-${gameState.fleet.indexOf(hitShip)}`
+            );
+            shipEl.classList.add('sunk');
 
-        messageArea.textContent = `¡Hundido! ${hitShip.name}`
+            messageArea.textContent = `¡Hundido! ${hitShip.name}`;
         }
 
         if (gameState.shipsSunk === gameState.fleet.length) {
-        endGame()
+            endGame();
         }
     } else {
-        cell.classList.add("agua")
-        messageArea.textContent = "¡Agua!"
+        cell.classList.add('agua');
+        messageArea.textContent = '¡Agua!';
     }
 }
 
@@ -230,66 +236,66 @@ function handleCellClick(event) {
 // async function loadScores() { ... }
 
 function endGame() {
-    gameState.isGameOver = true
-    modal.style.display = "flex"
-    modalTitle.textContent = "¡Victoria!"
-    modalText.textContent = `Has hundido toda la flota en ${gameState.shotsFired} disparos.`
+    gameState.isGameOver = true;
+    modal.style.display = 'flex';
+    modalTitle.textContent = '¡Victoria!';
+    modalText.textContent = `Has hundido toda la flota en ${gameState.shotsFired} disparos.`;
 }
 
-saveScoreBtn.addEventListener("click", async () => {
-    const playerName = playerNameInput.value.trim()
-    if (!playerName) return alert("Introduce un nombre.")
+saveScoreBtn.addEventListener('click', async () => {
+    const playerName = playerNameInput.value.trim();
+    if (!playerName) return alert('Introduce un nombre.');
 
     try {
-        await fetch("save_score.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            name: playerName,
-            shots: gameState.shotsFired,
-        }),
-})
+        await fetch('save_score.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: playerName,
+                shots: gameState.shotsFired,
+            }),
+        });
 
-        modal.style.display = "none"
-        playerNameInput.value = ""
-        loadScores()
+        modal.style.display = 'none';
+        playerNameInput.value = '';
+        loadScores();
 
         // Reset del estado
         gameState = {
-        boardSize: 0,
-        fleet: [],
-        shotsFired: 0,
-        shipsSunk: 0,
-        isGameOver: false,
-        }
+            boardSize: 0,
+            fleet: [],
+            shotsFired: 0,
+            shipsSunk: 0,
+            isGameOver: false,
+        };
 
-        shotCounterEl.textContent = "0"
-        messageArea.textContent = "Reiniciando partida..."
+        shotCounterEl.textContent = '0';
+        messageArea.textContent = 'Reiniciando partida...';
 
         // Volver a iniciar el juego
-        startGame()
+        startGame();
     } catch (error) {
-        console.error("Error al guardar puntuación:", error)
-        alert("Error al guardar la puntuación. Inténtalo de nuevo.")
+        console.error('Error al guardar puntuación:', error);
+        alert('Error al guardar la puntuación. Inténtalo de nuevo.');
     }
-})
+});
 
 async function loadScores() {
     try {
-        const response = await fetch("get_scores.php")
-        const scores = await response.json()
+        const response = await fetch('get_scores.php');
+        const scores = await response.json();
 
-        scoreListEl.innerHTML = ""
+        scoreListEl.innerHTML = '';
         scores.forEach((score) => {
-        const li = document.createElement("li")
-        li.textContent = `${score.name} - ${score.shots} disparos`
-        scoreListEl.appendChild(li)
-        })
+            const li = document.createElement('li');
+            li.textContent = `${score.name} - ${score.shots} disparos`;
+            scoreListEl.appendChild(li);
+        });
     } catch (error) {
-        console.error("Error al cargar puntuaciones:", error)
+        console.error('Error al cargar puntuaciones:', error);
     }
 }
 
 // --- INVOCACIÓN INICIAL ---
-startGame()
-loadScores()
+startGame();
+loadScores();
