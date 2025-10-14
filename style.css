@@ -1,3 +1,4 @@
+/* === GLOBAL === */
 * {
     margin: 0;
     padding: 0;
@@ -6,18 +7,47 @@
 }
 
 body {
-    background-color: #0d1b2a;
+    background: #000000;
     color: #ffffff;
+    min-height: 100vh;
+    position: relative;
 }
 
-/* ===== START SCREEN ===== */
+body::before,
+.info-panel::before,
+.game-container::before,
+.modal-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(26, 140, 255, 0.05) 0,
+        rgba(26, 140, 255, 0.05) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+body::before {
+    position: fixed;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0,
+        rgba(0, 0, 0, 0.15) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    z-index: 9999;
+}
+
+/* === START SCREEN === */
 #start-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(11, 23, 35);
+    inset: 0;
+    background: #000000;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27,26 +57,30 @@ body {
 }
 
 #start-screen img {
-    max-width: 100%;
-    max-height: 80%;
+    max-width: 300px;
+    max-height: 300px;
     object-fit: contain;
+    image-rendering: pixelated;
 }
 
-#start-screen button {
-    margin-top: 20px;
-    padding: 12px 24px;
+#start-screen button,
+.modal-content button {
+    margin-top: 30px;
+    padding: 15px 40px;
     font-size: 14px;
-    background: #0077b6;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    background: #1a8cff;
+    color: #ffffff;
+    border: 4px solid #0066cc;
+    border-radius: 0;
+    box-shadow: 0 4px 0 #003d99;
+    transition: all 0.2s ease;
 }
 
-#start-screen button:hover {
-    background: #023e8a;
-    transform: scale(1.1);
+#start-screen button:hover,
+.modal-content button:hover {
+    background: #0066cc;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #003d99;
 }
 
 #start-screen.fade-out {
@@ -54,191 +88,254 @@ body {
     pointer-events: none;
 }
 
-/* ===== MAIN LAYOUT ===== */
+/* === LAYOUT === */
 .main-layout {
     display: flex;
     gap: 20px;
     padding: 20px;
+    max-width: 1400px;
+    margin: auto;
+    }
+
+/* === PANELS === */
+.info-panel,
+.game-container,
+.modal-content {
+    position: relative;
+    background: #000000;
+    color: #ffffff;
+    padding: 20px;
+    border: 6px solid #0066cc;
+    box-shadow: inset 0 0 0 2px #000000, inset 0 0 0 4px #1a8cff,
+        0 6px 12px rgba(0, 0, 0, 0.8);
 }
 
-/* ===== INFO PANEL ===== */
 .info-panel {
     flex: 1;
-    background: #1b263b;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.6);
-    color: #fff;
+    min-width: 280px;
 }
 
-.info-panel h2 {
-    margin-bottom: 10px;
-    color: #e0e1dd;
-}
-
-#fleet-status {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-}
-
-#fleet-status li {
-    background: #415a77;
-    color: #ffffff;
-    font-weight: bold;
-    padding: 8px 12px;
-    margin: 6px 0;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-
-#fleet-status li:hover {
-    background: #778da9;
-    transform: scale(1.02);
-}
-
-#fleet-status li span {
-    background: #e63946;
-    color: #fff;
-    font-size: 0.85em;
-    font-weight: normal;
-    padding: 2px 8px;
-    border-radius: 12px;
-}
-
-.stats {
-    color: #adb5bd;
-    font-weight: bold;
-    padding: 8px 12px;
-    margin: 6px 0;
-}
-
-.leaderboard {
-    margin-top: 20px;
-}
-
-.leaderboard ol {
-    padding-left: 20px;
-    margin-left: 5%;
-
-}
-
-/* ===== GAME CONTAINER ===== */
 .game-container {
     flex: 2;
-    background: #1b263b;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.6);
     text-align: center;
-    color: #fff;
+}
+
+.info-panel > *,
+.game-container > *,
+.modal-content > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* === HEADINGS === */
+h1,
+h2 {
+    color: #1a8cff;
+    text-shadow: 0 0 10px rgba(26, 140, 255, 0.8);
+}
+
+.info-panel h2,
+.leaderboard h2 {
+    font-size: 12px;
+    margin-bottom: 15px;
 }
 
 .game-container h1 {
-    color: #e0e1dd;
+    font-size: 18px;
     margin-bottom: 15px;
 }
 
-/* ===== MESSAGE AREA ===== */
+/* === INFO PANEL === */
+#fleet-status {
+    list-style: none;
+    margin: 10px 0 20px;
+}
+
+#fleet-status li {
+    background: #0d1b2a;
+    color: #1a8cff;
+    font-weight: bold;
+    padding: 10px 12px;
+    margin: 8px 0;
+    border: 2px solid #0066cc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    transition: 0.2s;
+}
+
+#fleet-status li.sunk {
+    color: #ff3d1a !important;
+    border-color: #ff3d1a !important;
+    text-decoration: line-through !important;
+    text-shadow: 0 0 8px rgba(255, 61, 26, 0.9) !important;
+}
+
+
+#fleet-status li:hover {
+    background: #1a2332;
+    border-color: #1a8cff;
+    box-shadow: 0 0 10px rgba(26, 140, 255, 0.5);
+}
+
+#fleet-status li span {
+    background: #ff3d1a;
+    color: #ffffff;
+    font-size: 9px;
+    padding: 3px 8px;
+    border: 2px solid #cc0000;
+}
+
+.stats {
+    color: #1a8cff;
+    background: #0d1b2a;
+    border: 2px solid #0066cc;
+    font-weight: bold;
+    padding: 10px 12px;
+    margin: 15px 0;
+    font-size: 11px;
+}
+
+.stats span {
+    color: #ffffff;
+}
+
+.leaderboard ol {
+    padding-left: 25px;
+    color: #1a8cff;
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+/* === MESSAGE AREA === */
 #message-area {
     margin-bottom: 15px;
-    font-size: 1.1em;
+    font-size: 11px;
     font-weight: bold;
-    color: #fff;
+    color: #1a8cff;
     padding-bottom: 10px;
+    text-shadow: 0 0 8px rgba(26, 140, 255, 0.6);
 }
 
-/* ===== GAME BOARD ===== */
+/* === GAME BOARD === */
 #game-board {
     display: grid;
     justify-content: center;
-    margin: 0 auto;
+    margin: auto;
     grid-template-columns: repeat(10, 40px);
     grid-template-rows: repeat(10, 40px);
+    padding: 20px;
+    background: #1a8cff;
+    border: 8px solid #0066cc;
+    box-shadow: inset 0 0 0 4px #000000, inset 0 0 0 6px #1a8cff,
+        0 8px 16px rgba(0, 0, 0, 0.8);
+    position: relative;
 }
 
 .cell {
     width: 40px;
     height: 40px;
-    background: #1b263b;
-    border: 1px solid #415a77;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    background: #c0c0c0;
+    border: 2px solid #000000;
+    transition: background 0.1s;
+    position: relative;
 }
 
 .cell:hover {
-    background: #415a77;
+    background: #d0d0d0;
 }
 
-.cell.tocado {
-    background: #ef233c;
+/* Shared cell pseudo */
+.cell.agua::after,
+.cell.tocado::after,
+.cell.hundido::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 2;
 }
 
-.cell.agua {
-    background: #457b9d;
+/* Agua */
+.cell.agua::after {
+    width: 28px;
+    height: 28px;
+    background: radial-gradient(circle at 30% 30%, #4da6ff, #0066ff);
+    border: 3px solid #003d99;
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.3),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.3);
 }
 
-.cell.hundido {
-    background: #8b0000;
-}
-
-/* ===== MODAL ===== */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width:100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
+/* Tocado + Hundido */
+.cell.tocado::after,
+.cell.hundido::after {
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 7px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000;
+}
+
+.cell.tocado::after {
+    content: "HIT";
+    background: radial-gradient(circle at 30% 30%, #ff8866, #ff3d1a);
+    border: 3px solid #cc0000;
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.cell.hundido::after {
+    content: "HIT";
+    background: radial-gradient(circle at 30% 30%, #cc0000, #660000);
+    border: 3px solid #330000;
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.6),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+/* === MODAL === */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
 }
 
 .modal-content {
-    background: #1b263b;
-    padding: 25px;
-    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
-    width: 300px;
-    color: #fff;
-    border: 2px solid #415a77;
 }
 
 .modal-content h2 {
-    margin-bottom: 10px;
-    color: #e0e1dd;
+    margin-bottom: 15px;
+    color: #1a8cff;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(26, 140, 255, 0.8);
 }
 
 .modal-content p {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 11px;
+    line-height: 1.6;
 }
 
 .modal-content input {
     width: 90%;
-    padding: 8px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 20px;
     background: #0d1b2a;
-    color: #ffffff;
-    border: 1px solid #415a77;
-    border-radius: 5px;
-}
-
-.modal-content button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    background: #0077b6;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.modal-content button:hover {
-    background: #023e8a;
+    color: #1a8cff;
+    border: 3px solid #0066cc;
+    border-radius: 0;
+    font-size: 10px;
 }
